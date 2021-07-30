@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -34,7 +33,6 @@ class _GalleryPageState extends State<GalleryPage> {
         iconTheme: IconThemeData(color: Colors.white),
       ),
       drawer: Drawer(
-
         child: ListView(
           children: <Widget>[
             DrawerHeader(
@@ -59,9 +57,18 @@ class _GalleryPageState extends State<GalleryPage> {
                   Padding(padding: EdgeInsets.only(top: 10),),
                   Text('test@mail.ru', style: TextStyle(fontSize:15, color: Colors.grey,),),
                   Padding(padding: EdgeInsets.only(top: 20),),
-                  // Text('Count: ${_count}', style: TextStyle(fontSize:20, color: Colors.black,),),
                 ],
               ),
+            ),
+            ListTile(
+                title: Text("Галерея", style: TextStyle(color: Colors.black,),),
+                leading: Icon(Icons.folder, color: Colors.black,),
+                onTap: (){},
+            ),
+            ListTile(
+                title: Text("Обо мне", style: TextStyle(color: Colors.black,),),
+                leading: Icon(Icons.people, color: Colors.black,),
+                onTap: (){}
             ),
           ],
         ),
