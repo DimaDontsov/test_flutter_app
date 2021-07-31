@@ -105,34 +105,33 @@ class _MyGridListState extends State<MyGridList> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Photo>>(
-        future: callAsyncFetch(),
-        builder: (context, AsyncSnapshot<List<Photo>> snapshot) {
-          if (snapshot.hasData) {
-            var images = photos;
-            // мы используем StaggeredGridView для построения
-            // кастомной сетки из изображений
-            return StaggeredGridView.countBuilder(
-              // количество изображений
-              itemCount: 6,
-              // crossAxisCount задает количество колонок
-              // по которым будут выравнены изображения
-              crossAxisCount: 2,
-              // отступы по вертикали
-              mainAxisSpacing: 10,
-              // отступы по горизонтали
-              crossAxisSpacing: 10,
-              staggeredTileBuilder: (index) {
-                return StaggeredTile.count(1, 1);
-              },
-              // строим изображение
-              itemBuilder: (context, index) {
-                return Container(
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.pinkAccent, width: 1)
-                  ),
-                  // мы используем метод Image.network для
-                  // отображения картинок из сети
-                  child: Image.network(
+      future: callAsyncFetch(),
+      builder: (context, AsyncSnapshot<List<Photo>> snapshot) {
+        if (snapshot.hasData) {
+          var images = photos;
+          // мы используем StaggeredGridView для построения
+          // кастомной сетки из изображений
+          return StaggeredGridView.countBuilder(
+            // количество изображений
+            itemCount: 6,
+            // crossAxisCount задает количество колонок
+            // по которым будут выравнены изображения
+            crossAxisCount: 2,
+            // отступы по вертикали
+            mainAxisSpacing: 10,
+            // отступы по горизонтали
+            crossAxisSpacing: 10,
+            staggeredTileBuilder: (index) {
+              return StaggeredTile.count(1, 1);
+            },
+            // строим изображение
+            itemBuilder: (context, index) {
+              return Container(
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pushReplacementNamed(context, '/photo_detail', arguments: images[index]);
+                  },
+                  child:  Image.network(
                     images[index].url,
                     // указываем максимальную ширину и высоту
                     width: 600,
@@ -154,16 +153,16 @@ class _MyGridListState extends State<MyGridList> {
                       return Center(child: Text("Error!"));
                     },
                   ),
-                );
-              },
-
-            );
-          } else {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
+                )
+              );
+            },
+          );
+        } else {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
         }
+      }
     );
   }
 }
