@@ -10,7 +10,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.grey,
       ),
-      home: GalleryPage(),
+      initialRoute: '/gallery',
+      routes: {
+        '/gallery': (context) => GalleryPage(),
+        '/about': (context) => AboutPage(),
+      },
     );
   }
 }
@@ -79,12 +83,16 @@ class _GalleryPageState extends State<GalleryPage> {
             ListTile(
                 title: Text("Галерея", style: TextStyle(color: Colors.black,),),
                 leading: Icon(Icons.folder, color: Colors.black,),
-                onTap: (){},
+                onTap: (){
+                  Navigator.pushReplacementNamed(context, '/gallery');
+                },
             ),
             ListTile(
                 title: Text("Обо мне", style: TextStyle(color: Colors.black,),),
                 leading: Icon(Icons.people, color: Colors.black,),
-                onTap: (){}
+                onTap: (){
+                  Navigator.pushReplacementNamed(context, '/about');
+                }
             ),
           ],
         ),
