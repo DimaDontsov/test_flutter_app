@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:test_flutter_app/myAppBar.dart';
+
 
 void main() => runApp(MyApp());
 
@@ -31,11 +33,7 @@ class _AboutPageState extends State<AboutPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Обо мне', style: TextStyle(color: Colors.white,),),
-        backgroundColor: Colors.blue,
-        iconTheme: IconThemeData(color: Colors.white),
-      ),
+      appBar: MyAppBar(titleText: 'Обо мне',),
       drawer: Drawer(
         child: ListView(
           children: <Widget>[
@@ -98,11 +96,7 @@ class _GalleryPageState extends State<GalleryPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Галерея', style: TextStyle(color: Colors.white,),),
-        backgroundColor: Colors.blue,
-        iconTheme: IconThemeData(color: Colors.white),
-      ),
+      appBar: MyAppBar(titleText: 'Галерея',),
       drawer: Drawer(
         child: ListView(
           children: <Widget>[
