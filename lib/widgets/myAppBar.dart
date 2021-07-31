@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   String titleText = "";
