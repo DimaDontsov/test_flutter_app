@@ -95,7 +95,7 @@ class PhotoDetailPage extends StatelessWidget {
                 Padding(padding: EdgeInsets.only(top: 30),),
                 ElevatedButton(
                   style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.blue) ),
-                  onPressed: () => Navigator.pushReplacementNamed(context, '/gallery'),
+                  onPressed: () => Navigator.pop(context),
                   child: Text('НАЗАД', style: TextStyle(fontSize: 25, color: Colors.white,),),
                 )
               ],

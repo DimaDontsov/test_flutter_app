@@ -141,7 +141,7 @@ class _MyGridListState extends State<MyGridList> {
                     return Container(
                         child: GestureDetector(
                           onTap: () {
-                            Navigator.pushReplacementNamed(context, '/photo_detail', arguments: images[index]);
+                            Navigator.pushNamed(context, '/photo_detail', arguments: images[index]);
                           },
                           child:  Image.network(
                             images[index].url,
