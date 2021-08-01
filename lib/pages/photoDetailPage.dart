@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:test_flutter_app/widgets/myAppBar.dart';
 import 'package:test_flutter_app/widgets/myDrawer.dart';
-import 'package:test_flutter_app/pages/galleryPage.dart';
+import 'package:test_flutter_app/photo.dart';
 
 
 class PhotoDetailPage extends StatelessWidget {

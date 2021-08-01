@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:test_flutter_app/pages/aboutPage.dart';
 import 'package:test_flutter_app/pages/galleryPage.dart';
 import 'package:test_flutter_app/pages/photoDetailPage.dart';
+import 'package:test_flutter_app/photo.dart';
 
 
 void main() => runApp(MyApp());
