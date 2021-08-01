@@ -99,7 +99,6 @@ class _MyGridListState extends State<MyGridList> {
     super.initState();
     // получаем картинки из JSONPlaceholder
     getPhotoList().then((value) => photos = value);
-    print("Hello");
   }
 
   @override
@@ -111,52 +110,73 @@ class _MyGridListState extends State<MyGridList> {
           var images = photos;
           // мы используем StaggeredGridView для построения
           // кастомной сетки из изображений
-          return StaggeredGridView.countBuilder(
-            // количество изображений
-            itemCount: 6,
-            // crossAxisCount задает количество колонок
-            // по которым будут выравнены изображения
-            crossAxisCount: 2,
-            // отступы по вертикали
-            mainAxisSpacing: 10,
-            // отступы по горизонтали
-            crossAxisSpacing: 10,
-            staggeredTileBuilder: (index) {
-              return StaggeredTile.count(1, 1);
-            },
-            // строим изображение
-            itemBuilder: (context, index) {
-              return Container(
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.pushReplacementNamed(context, '/photo_detail', arguments: images[index]);
+          List<Widget> categories = [];
+
+          for (int shift = 0, caterogyNum = 1; caterogyNum <= 4; caterogyNum++, shift += 6) {
+            categories.addAll([
+              Padding(
+                padding: EdgeInsets.all(20),
+                child: Text("Категория №${caterogyNum}", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black,),),
+              ),
+              Padding(
+                padding: EdgeInsets.all(20),
+                child: StaggeredGridView.countBuilder(
+                  shrinkWrap: true,
+                  physics: ClampingScrollPhysics(),
+                  // количество изображений
+                  itemCount: 6,
+                  // crossAxisCount задает количество колонок
+                  // по которым будут выравнены изображения
+                  crossAxisCount: 2,
+                  // отступы по вертикали
+                  mainAxisSpacing: 20,
+                  // отступы по горизонтали
+                  crossAxisSpacing: 20,
+                  staggeredTileBuilder: (index) {
+                    return StaggeredTile.count(1, 1);
                   },
-                  child:  Image.network(
-                    images[index].url,
-                    // указываем максимальную ширину и высоту
-                    width: 600,
-                    height: 600,
-                    // указываем масштабирование изображения
-                    fit: BoxFit.cover,
-                    // при загрузки изображения
-                    // будет показан текст Loading...
-                    loadingBuilder: (context, widget, imageChunkEvent) {
-                      if (imageChunkEvent == null) {
-                        return widget;
-                      }
-                      return Center(child: Text("Loading..."));
-                    },
-                    // при возникновении ошибки
-                    // вместо изображения будет текст Error!
-                    errorBuilder: (context, obj, stacktrace) {
-                      print("Error ${obj.toString()}");
-                      return Center(child: Text("Error!"));
-                    },
-                  ),
-                )
-              );
-            },
+                  // строим изображение
+                  itemBuilder: (context, index) {
+                    index += shift;
+                    return Container(
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.pushReplacementNamed(context, '/photo_detail', arguments: images[index]);
+                          },
+                          child:  Image.network(
+                            images[index].url,
+                            // указываем максимальную ширину и высоту
+                            width: 600,
+                            height: 600,
+                            // указываем масштабирование изображения
+                            fit: BoxFit.cover,
+                            // при загрузки изображения
+                            // будет показан текст Loading...
+                            loadingBuilder: (context, widget, imageChunkEvent) {
+                              if (imageChunkEvent == null) {
+                                return widget;
+                              }
+                              return Center(child: Text("Loading..."));
+                            },
+                            // при возникновении ошибки
+                            // вместо изображения будет текст Error!
+                            errorBuilder: (context, obj, stacktrace) {
+                              print("Error ${obj.toString()}");
+                              return Center(child: Text("Error!"));
+                            },
+                          ),
+                        )
+                    );
+                  },
+                ),
+              ),
+            ]);
+          }
+
+          return ListView(
+            children: categories,
           );
+
         } else {
           return Center(
             child: CircularProgressIndicator(),
@@ -183,9 +203,7 @@ class _GalleryPageState extends State<GalleryPage> {
     return Scaffold(
       appBar: MyAppBar(titleText: 'Галерея',),
       drawer: MyDrawer(),
-      body: Scrollbar(
-        child: MyGridList(),
-      ),
+      body: MyGridList(),
     );
   }
 
