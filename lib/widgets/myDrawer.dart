@@ -1,11 +1,54 @@
 import 'package:flutter/material.dart';
 
 
+class MenuItem {
+
+  late String route;
+  late String name;
+  late IconData icon;
+
+  MenuItem(String route, name, icon) {
+    this.route = route;
+    this.name = name;
+    this.icon = icon;
+  }
+
+}
+
 class MyDrawer extends StatelessWidget {
   const MyDrawer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
+    List<MenuItem> menuItems = [];
+    menuItems.add(MenuItem('/gallery','Галерея', Icons.folder));
+    menuItems.add(MenuItem('/about','Обо мне', Icons.people));
+
+    String? currentRoute = ModalRoute.of(context)!.settings.name;
+
+    List<Widget> listTiles = [];
+    for (int i = 0; i < menuItems.length; i++) {
+      var color = Colors.black;
+      var tileColor = Colors.white;
+      if (menuItems[i].route == currentRoute) {
+        color = Colors.blue;
+        tileColor = Color.fromRGBO(148, 204, 255, .5);
+      }
+      listTiles.add(
+        ListTile(
+          title: Text(menuItems[i].name, style: TextStyle(color: color,),),
+          leading: Icon(menuItems[i].icon, color: color,),
+          tileColor: tileColor,
+          onTap: (){
+            if (menuItems[i].route != currentRoute) {
+              Navigator.pushReplacementNamed(context, menuItems[i].route);
+            }
+          },
+        ),
+      );
+    }
+
     return Drawer(
       child: ListView(
         children: <Widget>[
@@ -34,19 +77,10 @@ class MyDrawer extends StatelessWidget {
               ],
             ),
           ),
-          ListTile(
-            title: Text("Галерея", style: TextStyle(color: Colors.black,),),
-            leading: Icon(Icons.folder, color: Colors.black,),
-            onTap: (){
-              Navigator.pushReplacementNamed(context, '/gallery');
-            },
-          ),
-          ListTile(
-              title: Text("Обо мне", style: TextStyle(color: Colors.black,),),
-              leading: Icon(Icons.people, color: Colors.black,),
-              onTap: (){
-                Navigator.pushReplacementNamed(context, '/about');
-              }
+          ListView(
+            shrinkWrap: true,
+            physics: ClampingScrollPhysics(),
+            children: listTiles,
           ),
         ],
       ),
