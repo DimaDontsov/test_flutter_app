@@ -65,9 +65,11 @@ class MyDrawer extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CircleAvatar(
-                  backgroundImage: AssetImage('assets/menu_icon.png'),
-                  radius: 20,
+                Expanded(
+                  child: CircleAvatar(
+                    backgroundImage: AssetImage('assets/menu_icon.png'),
+                    radius: 20,
+                  ),
                 ),
                 Padding(padding: EdgeInsets.only(top: 20),),
                 Text('Дмитрий Донцов', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black,),),
