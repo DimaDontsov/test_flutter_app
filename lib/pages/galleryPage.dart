@@ -20,6 +20,18 @@ class MyGridList extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             List<Photo> images = snapshot.data as List<Photo>;
+            if (images.length == 0) {
+              return Padding(
+                padding: EdgeInsets.all(20),
+                child: Center(
+                  child: Text(
+                    "Ошибка загрузки. Проверьте подключение к сети и повторите проверку.",
+                    style: TextStyle(fontSize: 20),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              );
+            }
             List<Widget> categories = [];
             for (int shift = 0, caterogyNum = 1; caterogyNum <= 4; caterogyNum++, shift += 6) {
               categories.addAll([
