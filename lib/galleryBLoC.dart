@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -31,15 +32,33 @@ class Repository {
   }
 }
 
+class GalleryResult {
 
+  List<Photo> photos = [];
+  String errorMessage = '';
+
+  GalleryResult();
+
+  GalleryResult.success(photos) {
+    this.photos = photos;
+  }
+
+  GalleryResult.error(errorMessage) {
+    this.errorMessage = errorMessage;
+  }
+
+  bool isSuccess() {
+    return this.errorMessage.isEmpty;
+  }
+}
 
 enum GalleryEvent {
   refresh,
 }
 
-class GalleryBloc extends Bloc<GalleryEvent, List<Photo>> {
+class GalleryBloc extends Bloc<GalleryEvent, GalleryResult> {
   /// {@macro counter_bloc}
-  GalleryBloc() : super([]);
+  GalleryBloc() : super(GalleryResult());
 
   List<Photo> _photos = [];
 
@@ -53,19 +72,26 @@ class GalleryBloc extends Bloc<GalleryEvent, List<Photo>> {
       photos = photoList.photos;
 
     } catch (error) {
-      print(error);
+      throw error;
     }
     _photos = photos;
   }
 
   @override
-  Stream<List<Photo>> mapEventToState(GalleryEvent event) async* {
-    switch (event) {
-      case GalleryEvent.refresh:
-        yield []; // Для того, чтобы после нажатия на кнопку появлялась иконка загрузки
-        await Future.delayed(Duration(milliseconds: 2000), () => getPhotoList());
-        yield _photos;
-        break;
+  Stream<GalleryResult> mapEventToState(GalleryEvent event) async* {
+    try {
+      switch (event) {
+        case GalleryEvent.refresh:
+          yield GalleryResult(); // Для того, чтобы после нажатия на кнопку появлялась иконка загрузки
+          await Future.delayed(Duration(milliseconds: 2000), () => getPhotoList());
+          yield GalleryResult.success(_photos);
+          break;
+      }
+    } on SocketException {
+      yield GalleryResult.error('Ошибка загрузки. Проверьте подключение к сети и повторите попытку.');
+    }
+    catch (error) {
+      yield GalleryResult.error(error.toString());
     }
   }
 }
