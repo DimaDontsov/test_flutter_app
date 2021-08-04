@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:test_flutter_app/pages/aboutPage.dart';
 import 'package:test_flutter_app/pages/galleryPage.dart';
 import 'package:test_flutter_app/pages/photoDetailPage.dart';
 import 'package:test_flutter_app/photo.dart';
+import 'package:test_flutter_app/galleryBLoC.dart';
 
 
 void main() => runApp(MyApp());
@@ -10,18 +12,21 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.grey,
+    return BlocProvider(
+      create: (_) => GalleryBloc(),
+      child:  MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.grey,
+        ),
+        initialRoute: '/gallery',
+        routes: {
+          '/gallery': (context) => GalleryPage(),
+          '/about': (context) => AboutPage(),
+        },
+        onGenerateRoute: _getRoute,
       ),
-      initialRoute: '/gallery',
-      routes: {
-        '/gallery': (context) => GalleryPage(),
-        '/about': (context) => AboutPage(),
-      },
-      onGenerateRoute: _getRoute,
     );
   }
 
